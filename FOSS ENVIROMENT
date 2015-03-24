@@ -1,1 +1,119 @@
 
+1.KERNEL CONFIGURATION, COMPILATION AND INSTALLATION
+
+-> select the kernel source code (ex no 1)
+->display the linux-2.6.35.7.tar.gz->select linux-2.6.35.7.tar.gz link
+->save the folder in Downloads directory
+->go to Download directory from places in menubar
+->extract linux-2.6.35.7.tar.gz folder on that same directory.
+
+Step 2:Display the user name-> uname -r
+Step 3: Enter the Download Directory and Display password of the Directory and display the list
+->cd Downloads/ -> pwd ->/home/fosslab/Downloads -> ls -l -> SHOW THE LIST OF FILE !!!
+
+Step 4: Enter the linux-2.6.35.7 Directory and Display the password of the linux-2.6.35.7 and
+Display the list of that linux-2.6.35.7 directory
+-> cd linux-2.6.35.7/ -> pwd -> /home/fosslab/Downloads/linux-2.6.35.7  --> ls-l --> SHOW THE LIST OF FILE !!! 
+Step 5:Open the Makefile in vi editor and type the extraversion directory
+vi Makefile
+        VERSION = 2
+        PATCHLEVEL = 6
+        SUBLEVEL = 35
+        EXTRAVERSION = .7-veni
+        NAME = Yokohama
+Step 6:To make the menuconfiguratiom 
+make menuconfig
+
+HOSTCC scripts/basic/fixdep
+HOSTCC scripts/basic/docproc
+HOSTCC scripts/basic/hash
+HOSTCC scripts/kconfig/conf.o
+HOSTCC scripts/kconfig/kxgettext.o
+HOSTCC scripts/kconfig/lxdialog/checklist.o
+HOSTCC scripts/kconfig/lxdialog/inputbox.o
+HOSTCC scripts/kconfig/lxdialog/menubox.o
+HOSTCC scripts/kconfig/lxdialog/textbox.o
+HOSTCC scripts/kconfig/lxdialog/util.o
+HOSTCC scripts/kconfig/lxdialog/yesno.o
+HOSTCC scripts/kconfig/mconf.o
+SHIPPED scripts/kconfig/zconf.tab.c
+SHIPPED scripts/kconfig/lex.zconf.c
+SHIPPED scripts/kconfig/zconf.hash.c
+HOSTCC scripts/kconfig/zconf.tab.o
+HOSTLD scripts/kconfig/mconf
+scripts/kconfig/mconf arch/x86/Kconfig
+#
+# using defaults found in /boot/config-2.6.35.6-45.fc14.i686
+#
+#
+# configuration written to .config
+#
+*** End of Linux kernel configuration.
+*** Execute 'make' to build the kernel or try 'make help'.
+
+Step 7:Display the General setup screen and do the following steps
+file systems->DOS/FAT/NT FILE SYSTEM->NTFS FILE SYSTEMS press space bar->NTFS FILE SUPPORT press the space bar->exit;
+Step 8: To make the bootlImage from the x86 boot directory
+->make bzImage
+Step 9: Login in to the super user(root)
+->su
+Password- admin123
+Step 10: To copy the bootlinuzImage from the x86 boot directory in to the vmlinuz-2.6.35.7
+directory
+-> cp arch/x86/boot/bzImage /boot/vmlinuz-2.6.35.7-veni
+Step 11: Exit from the super user
+-> #exit
+
+Step 12: To make the modules in linux-2.6.35.7 and Display list of modules are available in
+modules
+->make modules ->ls -l /lib/modules
+
+Step 13: Login in to the super user(root)
+-> su
+Password:(admin123)
+Step 14: Modules are install into the linux-2.6.35.7 on the super user and Display the available
+directories on the linux-2.6.35.7
+->make modules_install ->ls -l /lib/modules
+
+Step 15: stored all the hardwares and directories in to th e initram directory
+mkinitrd /boot/initramfs-2.6.35.7-veni.img 2.6.35.7-veni
+Step 16: Enter in to the boot directory and Display the list of files are avilable on the boot
+directoy
+-> cd /boot -> ls -l
+
+Step 17: Enter in to the grub file on the boot directory
+->cd /boot/grub
+Step 18: open the grub.conf file from grub directory
+vi grub.conf
+
+/////add end of the file line/////
+title Fedora (2.6.35.7-veni)
+root (hd0,0)
+kernel /boot/vmlinuz-2.6.35.7-mykernel ro root=UUID=6c37c0aa-4b4c-4bbe-a235-d9149be80d24
+rd_NO_LUKS rd_NO_LVM rd_NO_MD rd_NO_DM LANG=en_US.UTF-8 SYSFONT=latarcyrhebsun16
+KEYTABLE=us rhgb quiet
+initrd /boot/initramfs-2.6.35.7-veni.img
+copy this statement form title fedora
+ro root=UUID=6c37c0aa-4b4c-4bbe-a235-d9149be80d24 rd_NO_LUKS rd_NO_LVM rd_NO_MD
+rd_NO_DM LANG=en_US.UTF-8 SYSFONT=latarcyrheb-sun16 KEYTABLE=us rhgb quiet
+
+Step 19: Reboot the system
+->reboot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
