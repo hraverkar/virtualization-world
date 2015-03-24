@@ -1,0 +1,130 @@
+1. first you have to install cntlm
+->sudo apt-get install cntlm
+
+2. after that install kvm
+->sudo apt-get install kvm
+
+3. after install QEMU
+->sudo apt-get install qemu
+
+4.now download the LINUX KERNEL using this site - 
+->http://xecdesign.com/downloads/linux-qemu/kernel-qemu
+
+5. now chack the enviroment for qemu (this is not nessasary step)
+-> 5.1 sudo apt-get install git libncurses5-dev gcc-arm-linux-gnueabihf
+-> 5.2 sudo apt-get install ia32-libs 
+this also usefull commond for this ..
+		
+		or
+
+5. Preparing for enviroment
+-> 5.1 sudo apt-get install git zlib1g-dev libsdl1.2-dev
+-> 5.2 sudo apt-get install libpixman-1-dev libfdt-dev
+
+
+6. after that you have must run this commond
+
+-> make
+-> sudo make install
+
+7. now copy the all rassberry.img  & Kernel file into the qemu FOLDER
+
+8. after that run this commnd
+-> qemu-system-arm -kernel kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw init=/bin/bash" -hda 2013-09-25-wheezy-raspbian.img this are the file rassberryfile name 
+
+9.  after that run this commond show the all the menu & Icon
+-> qemu-system-arm -kernel kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw" -hda 2013-09-25-wheezy-raspbian.img this are the file name (raspberry file name)
+
+
+10. login = pi
+      password = raspberry
+after that write commnd 
+
+-> $startx
+
+///// Your Rasberry pi is working ///// 
+
+
+11. Now run this Commond - 
+-> sudo apt-get install qemu-kvm libvirt-bin bridge-utils virt-manager
+
+12. after thet - 
+-> sudo virt-manager
+
+INSTALL KVM HOST
+
+1. install KVM host on machine 
+
+-> apt-get install openvswitch-switch qemu-kvm libvirt-bin
+
+2. Setup Networking
+-> ovs-vsctl add-br ovsbr0
+-> virsh net-destroy default
+
+
+3. Edit the config from the default bridge with this command.
+
+-> virsh net-edit default
+
+//////change some in file//////
+
+<network>
+<name>ovsbr0</name>
+<forward mode='bridge'/>
+<bridge name='ovsbr0'/>
+<virtualport type='openvswitch'/>
+</network>
+virsh net-undefine default
+
+virsh net-autostart ovsbr0
+
+//////
+
+4. my networking configuration in /etc/network/interfaces. That’s why I added the following section to that file.
+
+//// auto ovsbr0
+iface ovsbr0 inet static
+   address 172.16.11.1
+   network 172.16.11.0
+   netmask 255.255.255.0
+   broadcast 172.16.11.255
+
+iface ovsbr0 inet6 static
+   address 2001:xxxx:xxxx:1::1
+   netmask 64
+
+/////
+
+
+Installing TINYCORE
+
+1.-> qemu-img create tinys.img (Name of file whatever u want ) 100m
+
+2. ->qemu-system-i386 -hda tinys.img(this file name shown in above the step ) -boot d -cdrom TinyCore-current.iso (iso file name )-m 512
+
+3. we have to take snapshot
+ 
+ so we have to convert qcow file formatt to qcow2 format 
+
+4.-> qemu-img convert -O qcow2 tinys.img tinyqc.qcow2
+
+after that ...
+we have to run this commaond 
+
+5. -> qemu-system-i386 -hda tinyqc.qcow2 -boot d -cdrom TinyCore-current.iso -m 512
+
+after this presss cntl+alt+2
+open terminal in tinyos
+after thet run commond 
+savevm booted
+press cntl+alt+1
+
+after thet create a file and store in a system 
+
+after that again press cntl+alt+2 t
+savevm booted 
+create file  and svce 
+press cntl+alt+1
+aafter that run commond 
+loadvm booted
+n chak there is any created file in system ...
